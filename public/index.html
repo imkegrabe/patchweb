@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Patch Explorer</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="description" content="Interacting with diffusion models directly via patches in the cross-attention heads increases interpretability." />
+<meta property="og:title" content="Patch Explorer: Interpretability through Interaction" />
+<meta property="og:description" content="Interacting with diffusion models directly via patches in the cross-attention heads increases interpretability." />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" /> 
+<meta name="twitter:title" content="Patch Explorer: Interpretability through Interaction" />
+<meta name="twitter:description" content="Interacting with diffusion models directly via patches in the cross-attention heads increases interpretability." />
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Math&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+<link href="style.css" rel="stylesheet">
+
+<style>
+.relatedthumb {
+  float:left; width: 200px; margin: 3px 10px 7px 0;
+}
+.relatedblock {
+  clear: both;
+  display: inline-block;
+}
+.bold-sc {
+  font-variant: small-caps;
+  font-weight: bold;
+}
+.cite, .citegroup {
+  margin-bottom: 8px;
+}
+:target {
+  background-color: yellow;
+}
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FD12LWN557"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date()); gtag('config', 'G-FD12LWN557');
+</script>
+
+</head>
+<body class="nd-docs">
+<div class="nd-pageheader">
+ <div class="container">
+ <h1 class="lead">
+Patch Explorer:
+<br>
+ <nobr class="widenobr">Interpreting Diffusion Models through Interaction</nobr>
+ </h1>
+<address>
+  <nobr><a href="https://pure.itu.dk/da/persons/imke-grabe" target="_blank"
+  >Imke Grabe</a><sup>1,2</sup>,</nobr>
+  <nobr><a href="https://github.com/JadenFiotto-Kaufman" target="_blank"
+  >Jaden Fiotto-Kaufman</a><sup>2</sup>,</nobr>
+  <nobr><a href="https://rohitgandikota.github.io" target="_blank"
+  >Rohit Gandikota</a><sup>2</sup>,</nobr>
+  <nobr><a href="https://baulab.info/" target="_blank"
+  >David Bau</a><sup>2</sup></nobr>
+ <br>
+  <nobr><sup>1</sup><a href="https://en.itu.dk" target="_blank"
+  >IT University of Copenhagen</a>,</nobr>
+  <nobr><sup>2</sup><a href="https://khoury.northeastern.edu/" target="_blank"
+  >Northeastern University</a></nobr>
+
+</address>
+ </div>
+</div><!-- end nd-pageheader -->
+
+<div class="container">
+<div class="row justify-content-center text-center">
+
+<p>
+<a href="https://openreview.net/forum?id=0n9wqVyHas" class="d-inline-block p-3 align-top" target="_blank"><img height="100" width="78" src="imagespatch/paper-screenshot.png" style="border:1px solid; margin: 0 38px;" alt="ArXiv Preprint thumbnail" data-nothumb=""><br>MIV @ CVPR<br>Workshop Paper</a>
+<a href="" class="d-inline-block p-3 align-top" target="_blank"><img height="100" width="78" src="images/code-thumb.png" style="border:1px solid; margin: 0 38px;" alt="Github code thumbnail" data-nothumb=""><br>Source Code<br>Github [coming soon]</a>
+<a href="imagespatch/poster-handle.png" class="d-inline-block p-3 align-top" target="_blank"><img height="80" width="160" src="imagespatch/poster-handle.png" style="border:1px solid; margin: 0 38px;" alt="poster thumbnail" data-nothumb=""><br>MIV @ CVPR <br>Workshop Poster</a>
+<a href="https://thecvf-art.com/project/imke-grabe-jaden-fiotto-kaufman/" class="d-inline-block p-3 align-top" target="_blank"><img height="100" width="160" src="imagespatch/gallery.gif" style="border:1px solid; margin: 0 38px;" alt="Github code thumbnail" data-nothumb=""><br>CVPR <br> Art Gallery</a>
+<a href="bippu.baulab.info" class="d-inline-block p-3 align-top" target="_blank"><img height="100" width="78" src="" style="border:1px solid; margin: 0 38px;" alt="Github code thumbnail" data-nothumb=""><br>Demo <br> [coming soon]</a>
+</p>
+
+<div class="card" style="max-width: 1020px;">
+<div class="card-block">
+
+<h3>Does Interaction via Diffusion Models' Internals support Interpretabilty?</h3>
+<p>
+Patch Explorer is an interactive interface for visualizing and manipulating the patches as they are processed by cross-attention heads. 
+Built on interventions via NNsight, our interface lets users inspect and manipulate individual attention heads over layers and timesteps. 
+Interaction via the interface reveals that attention heads independently capture semantics, like a unicorn's horn, in diffusion models. 
+Next to offering a way to analyze its behavior, users can also intervene with Patch Explorer to edit semantic associations within diffusion models, like adding a unicorn horn to a horse. 
+Our interface also helps understand the role of a diffusion timestep through precise interventions. 
+By providing a visualization tool with interactivity based on attention heads, we aim to shed light on their role in generative processes.
+</p>
+</div><!--card-block-->
+</div><!--card-->
+
+</div><!--row-->
+  
+<div class="row">
+<div class="col">
+  
+  <br><br>
+  <h3>How do Diffusion Models Encode Semantic Concepts?</h3>
+  <p>
+    Latent diffusion models operate in a compressed latent space rather than directly in pixel space. The latent space is organized into patches, which are spatial units that correspond
+    to regions in the output image. At every layer of the model's U-Net, here laid out horizontally, multiple attention heads, ordered vertically, perform the attention mechanism in parallel and over several timesteps.
+    Patch Explorer lets users interfere in the generation process by applying interventions to the patches as they are processed.
+  </p>
+  
+<figure class="center_image" style="margin-top: 30px">
+  <center><img src="imagespatch/0_interfacedesign.png" style="width:100%; max-width:800px"></center>
+  <figcaption><b>Interface components of Patch Explorer:</b> After (1) providing a text prompt and a seed to generate (2) an image, users can inspect the (3) patch grids of the individual attention heads visualized. Magenta represents positive and cyan represents negative activation. A slider (4) lets users inspect timesteps for a selected range. For the selected timestep range, users can choose to (5) an intervention to apply to selected patch grids.
+  </figcaption>
+</figure>
+
+<!-- <h2>How can we manipulate cross-attention heads directly?</h2> -->
+<h2>Direct Manipulation of Cross-Attention Heads</h2>
+
+<p>
+At the core of diffusion models is the attention mechanism,
+which enables content-based interactions between different
+spatial locations.
+In the cross-attention layers of diffusion models, the <i>K</i>
+and <i>V</i> matrices are derived from text encodings, while <i>Q</i>
+comes from the image representation. We propose to target the input and output of cross-attention heads through direct manipulation.
+</p>
+
+
+  <figure class="center_image" style="margin-top: 30px">
+    <center><img src="imagespatch/0_attn-graph.png" style="width:45%; max-width:800px"></center>
+    <figcaption> <b>Direct Manipulation of the cross-attention mechanism:</b> A (1) <b>Patch Grid</b> offers a representation to spatially target the outputs of attention heads with interventions. The intervention (2) <b>Scaling</b> multiplies the output of the attention head by a given scalar, while (3) <b>Encoding</b> replaces the output for targeted patches with the output for an alternative text encoding provided by the user.
+    </figcaption>
+  </figure>
+
+  In that way, patch grids become a new interaction modality, letting users interfere with the internal states of the model:
+
+  <figure class="center_image" style="margin-top: 30px">
+    <center><img src="imagespatch/0_drawz.png" style="width:60%; max-width:800px"></center>
+    <figcaption> <b>Interacting with patch grids:</b> The user chooses a patch grid by clicking on it, after which holding the shift lets them ''draw'' by moving the mouse over patches to select them, which marks them green. Clicking again allows users to quickly select many attention heads. </figcaption>
+  </figure>
+
+<!-- <h2>Finding semantic features and transferring them across concepts</h2> -->
+<h2>Can we find Specific Visual Concepts through Interaction?</h2>
+
+<p>
+The interface lets users explore the role of cross-attention heads in the generation process.
+For example, we find that two attention heads are responsible for generating the horn on the head of a unicorn.
+</p>
+
+<figure class="center_image" style="margin-top: 30px">
+  <center><img src="imagespatch/1_timesteps_unicorn.png" style="width:50%; max-width:800px"></center>
+  <figcaption> <b>Inspecting attention heads:</b> By adjusting the timestep slider, the user can inspect how the horn feature evolves over time at Layer 9 Head 3 and 4.
+  </figcaption>
+</figure>
+
+By interacting with these attention heads, images can be altered, e.g. through scaling.
+
+<figure class="center_image" style="margin-top: 30px">
+  <center><img src="imagespatch/0_interventionz.png" style="width:50%; max-width:800px"></center>
+  <figcaption> <b>Applying interventions with Patch Explorer:</b> In the (1) dropdown menu, the user selects an intervention, like Scaling, and applies it to the selected (2) timestep range by (3) selecting the desired patches.
+  </figcaption>
+</figure>
+
+Scaling the attention heads to 0 ablates the attention heads' affect to the residual stream 
+and has the affect that the unicorn's horn disappers. Increasing their effect, on the other hand, amplifies the feature, not only for unicorn horns:
+
+<figure class="center_image" style="margin-top: 30px">
+  <center><img src="imagespatch/0_new-scaling-b.svg" style="width:50%; max-width:800px"></center>
+  <figcaption> Scaling the two attention heads amplifies
+      or removes the horn not only for unicorns, but also for other horned animals, confirming these heads'
+      general role in generating horns.
+
+  </figcaption>
+</figure>
+
+<p>
+
+The attention heads can be used to transfer the visual feature to other horse-like concepts. For example, for the prompt ''Pegasus'', a unicorn horn can be added by <i>encoding</i> ''unicorn'' into relevant patches. Additionally, we find that the Pegasus turns into a regular horse when <i>scaling</i> down the influence of patches at Layer 8, Head 7, which seems to be responsible for generating its wing.
+
+</p>
+
+  <figure class="center_image" style="margin-top: 30px">
+    <center><img src="imagespatch/1_headyy.png" style="width:100%; max-width:800px"></center>
+    <figcaption> 
+       </figcaption>
+  </figure>
+
+<!-- <h2>Tracing semantic features over timesteps</h2> -->
+
+<p>
+Restricting interventions to specific timestep ranges shows how features are formed throughout the generation process, like the unicorn horn on the horse' head, or the Pegasus' wings.
+</p>
+
+<figure class="center_image" style="margin-top: 30px">
+    <center><img src="imagespatch/0_growinghorn.png" style="width:100%; max-width:800px"></center>
+    <figcaption> <b>Evolution of horn over timesteps:</b> By encoding the prompt ''unicorn'' at the relevant attention heads for a growing number of timesteps, we can observe how a horn is added to a horse.  </figcaption>
+  </figure>
+
+  <figure class="center_image" style="margin-top: 30px">
+    <center><img src="imagespatch/0_growingwings.png" style="width:100%; max-width:800px"></center>
+    <figcaption> <b>Evolution of wings over timesteps:</b> By gradually increasing the contribution of the attention head that causes the Pegasus' wings, we can inspect how they are formed over timesteps.
+    </figcaption>
+  </figure>
+
+  
+<p>For a detailed usage scenario with more examples, take a look at our paper linked above. </p>
+  
+<h2>How to cite</h2>
+
+<p>The paper can be cited as follows.
+</p>
+
+<div class="card">
+<h3 class="card-header">bibliography</h3>
+<div class="card-block">
+<p style="text-indent: -3em; margin-left: 3em;" class="card-text clickselect">
+Imke Grabe, Jaden Fiotto-Kaufman, Rohit Gandikota, David Bau. "<em>Patch Explorer: Interpreting Diffusion Models through Interaction.</em>"
+Mechanistic Interpretability for Vision at CVPR 2025 (Non-proceedings Track).</nobr>
+</p>
+</div>
+<h3 class="card-header">bibtex</h3>
+<div class="card-block">
+<pre class="card-text clickselect">
+  @inproceedings{
+    grabe2025patch,
+    title={Patch Explorer: Interpreting Diffusion Models through Interaction},
+    author={Imke Grabe and Jaden Fiotto-Kaufman and Rohit Gandikota and David Bau},
+    booktitle={Mechanistic Interpretability for Vision at CVPR 2025 (Non-proceedings Track)},
+    year={2025},
+    url={https://openreview.net/forum?id=0n9wqVyHas}
+    }
+</pre>
+</div>
+</div>
+</p>
+
+</div>
+</div><!--row -->
+</div> <!-- container -->
+
+<footer class="nd-pagefooter">
+  <div class="row">
+    <div class="col-6 col-md text-center">
+      <a href="https://baulab.info/">About the Bau Lab</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+<script>
+$(document).on('click', '.clickselect', function(ev) {
+  var range = document.createRange();
+  range.selectNodeContents(this);
+  var sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+});
+</script>
+</html>
+
